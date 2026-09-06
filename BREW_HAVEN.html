@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Brew Haven Café | Rainy Season Special</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Palette: Strictly Brown, Orange, and Cream */
+      --bg-dark: #421201;             
+      --bg-surface: #551804;          
+      --btn-brown: #5C220E;           
+      --btn-brown-dark: #381104;      
+      --pumpkin-card: #F4A15D;        
+      --pumpkin-light: #FFAE6E;       
+      --pumpkin-accent: #E27527;      
+      --cream-light: #FFFDF9;         
+      --cream-soft: #FFF6EC;          
+      --cream-muted: #F7E5D2;         
+      --stitch-border: rgba(255, 246, 236, 0.9);
+      --shadow: 0 18px 42px rgba(56, 17, 4, 0.45);
+      --radius: 26px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 100%;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      /* Using the exact Canva line-art pumpkin as a subtle background pattern */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 200 200' fill='none' stroke='%23FFAE6E' stroke-width='2' stroke-opacity='0.15' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M96 66 C92 48 98 28 112 18 C118 14 126 15 128 22 C126 30 118 36 112 40 C105 45 103 54 102 66'/%3E%3Cpath d='M112 18 C116 20 122 19 128 22'/%3E%3Cpath d='M96 66 C85 64 68 70 52 84 C32 102 24 126 30 148 C36 170 58 184 86 182'/%3E%3Cpath d='M102 66 C114 64 132 70 148 84 C168 102 176 126 170 148 C164 170 142 184 114 182'/%3E%3Cpath d='M86 182 C94 184 106 184 114 182'/%3E%3Cpath d='M72 74 C54 90 46 114 50 140 C54 162 70 178 86 182'/%3E%3Cpath d='M92 68 C76 80 66 106 68 136 C70 162 82 178 96 183'/%3E%3Cpath d='M98 67 C90 84 84 112 86 142 C88 168 96 180 100 184'/%3E%3Cpath d='M101 67 C108 84 114 112 112 142 C110 168 103 180 100 184'/%3E%3Cpath d='M106 68 C122 80 132 106 130 136 C128 162 116 178 103 183'/%3E%3Cpath d='M126 74 C144 90 152 114 148 140 C144 162 128 178 114 182'/%3E%3Cpath d='M52 84 C62 76 74 72 88 68'/%3E%3Cpath d='M148 84 C138 76 126 72 112 68'/%3E%3C/svg%3E");
+      background-size: 160px 160px;
+      color: var(--cream-soft);
+      line-height: 1.6;
+      overflow-x: hidden;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Success Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background: var(--btn-brown);
+      color: var(--cream-light);
+      padding: 16px 26px;
+      border-radius: 14px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+      font-weight: 700;
+      border: 2px dashed var(--pumpkin-card);
+      z-index: 9999;
+      transform: translateY(150px) scale(0.9);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toast-popup.show {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      background: rgba(66, 18, 1, 0.94);
+      border-bottom: 2px solid rgba(244, 161, 93, 0.3);
+      padding-top: var(--safe-top);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--cream-soft);
+    }
+
+    .brand-logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--pumpkin-card);
+      border: 2px dashed var(--cream-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-dark);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: clamp(1.15rem, 2vw, 1.35rem);
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--pumpkin-light);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .mobile-menu-toggle span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      margin: 5px 0;
+      background: var(--pumpkin-light);
+      border-radius: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--cream-soft);
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--pumpkin-light);
+    }
+
+    .nav-auth-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 10px;
+    }
+
+    .btn-nav-login {
+      background: transparent;
+      color: var(--pumpkin-light);
+      border: 1.5px solid var(--pumpkin-light);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-nav-login:hover {
+      background: rgba(255, 174, 110, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .btn-nav-register {
+      background: var(--pumpkin-card);
+      color: var(--btn-brown-dark);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 2px dashed var(--btn-brown);
+      font-family: inherit;
+      font-size: 0.85rem;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(56, 17, 4, 0.35);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-nav-register:hover {
+      transform: translateY(-2px);
+      background: var(--pumpkin-light);
+    }
+
+    /* Running Marquee */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background: var(--bg-surface);
+      border-top: 1.5px dashed rgba(244, 161, 93, 0.4);
+      border-bottom: 1.5px dashed rgba(244, 161, 93, 0.4);
+      white-space: nowrap;
+      padding: 10px 0;
+      display: flex;
+      user-select: none;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      animation: marqueeScroll 22s linear infinite;
+      will-change: transform;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--pumpkin-light);
+      padding: 0 18px;
+      letter-spacing: 1.5px;
+    }
+
+    .marquee-item span {
+      color: var(--cream-soft);
+    }
+
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Hero Section */
+    .hero-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: clamp(30px, 6vw, 60px) 20px clamp(40px, 7vw, 75px);
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: clamp(30px, 5vw, 50px);
+    }
+
+    .stitched-card {
+      background: var(--pumpkin-card);
+      border-radius: var(--radius);
+      padding: clamp(32px, 6vw, 48px) clamp(24px, 5vw, 40px);
+      border: 2.5px dashed var(--stitch-border);
+      box-shadow: var(--shadow);
+      color: var(--btn-brown-dark);
+      position: relative;
+    }
+
+    .cozy-body-text {
+      font-family: 'Caveat', cursive, sans-serif;
+      font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+      line-height: 1.35;
+      color: var(--btn-brown-dark);
+      margin-bottom: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+    }
+
+    .hero-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn-pill-latte {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      background: var(--btn-brown);
+      color: var(--cream-soft);
+      font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+      font-family: 'Caveat', cursive, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 0 38px;
+      border-radius: 40px;
+      border: 2px solid var(--btn-brown-dark);
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(56, 17, 4, 0.4);
+      transition: transform 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-pill-latte:hover {
+      background: var(--btn-brown-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-pill-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      background: transparent;
+      color: var(--btn-brown-dark);
+      font-size: clamp(1.1rem, 2vw, 1.25rem);
+      font-family: 'Caveat', cursive, sans-serif;
+      font-weight: 700;
+      padding: 0 32px;
+      border-radius: 40px;
+      border: 2px dashed var(--btn-brown);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-pill-ghost:hover {
+      background: rgba(92, 34, 14, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Image Box Placeholder */
+    .hero-image-box {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius);
+      border: 3px dashed var(--pumpkin-card);
+      padding: 12px;
+      background: var(--bg-surface);
+      box-shadow: var(--shadow);
+      transform: rotate(2deg);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-image-box:hover {
+      transform: rotate(0deg);
+    }
+
+    .hero-image-box img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 8px);
+      display: block;
+      filter: sepia(35%) contrast(1.1) brightness(0.95);
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 12px;
+      border-radius: calc(var(--radius) - 8px);
+      background: linear-gradient(135deg, rgba(66, 18, 1, 0.35) 0%, rgba(244, 161, 93, 0.15) 100%);
+      pointer-events: none;
+    }
+
+    /* ==================== SLIDE-OUT DRAWER ==================== */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(45, 11, 0, 0.68);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide-dock-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      background: var(--pumpkin-card);
+      color: var(--btn-brown-dark);
+      border-left: 3px dashed var(--stitch-border);
+      box-shadow: -15px 0 45px rgba(0, 0, 0, 0.65);
+      z-index: 2001;
+      overflow-y: auto;
+      padding: clamp(24px, 4vw, 36px) clamp(20px, 3.5vw, 30px);
+      transition: right 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-dock-drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .btn-close-drawer {
+      background: var(--btn-brown);
+      color: var(--cream-soft);
+      border: 1.5px solid var(--btn-brown-dark);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-close-drawer:hover {
+      background: var(--btn-brown-dark);
+      transform: rotate(90deg);
+    }
+
+    /* Tabs & Authentication Views */
+    .side-tab-nav {
+      display: flex;
+      background: rgba(66, 18, 1, 0.18);
+      border-radius: 30px;
+      padding: 4px;
+      margin-bottom: 22px;
+      gap: 4px;
+    }
+
+    .side-tab-btn {
+      flex: 1;
+      min-height: 40px;
+      background: transparent;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--btn-brown-dark);
+      border-radius: 24px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .side-tab-btn.active {
+      background: var(--btn-brown);
+      color: var(--cream-soft);
+      box-shadow: 0 4px 10px rgba(56, 17, 4, 0.3);
+    }
+
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      color: var(--btn-brown-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input, 
+    .form-group select {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(66, 18, 1, 0.3);
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--cream-light);
+      color: var(--btn-brown-dark);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235C220E' d='M6 8.5L1.5 4h9z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .form-group input:focus, 
+    .form-group select:focus {
+      border-color: var(--btn-brown);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-side-action {
+      width: 100%;
+      min-height: 48px;
+      background: var(--btn-brown);
+      color: var(--cream-soft);
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 1px solid var(--btn-brown-dark);
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(56, 17, 4, 0.3);
+      transition: transform 0.2s, background 0.2s;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-side-action:hover {
+      background: var(--btn-brown-dark);
+      transform: translateY(-2px);
+    }
+
+    .switch-link-text {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--btn-brown-dark);
+    }
+
+    .switch-link-text a {
+      color: var(--btn-brown);
+      font-weight: 800;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .side-status-box {
+      margin-top: 20px;
+      background: var(--cream-soft);
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 1.5px dashed var(--btn-brown);
+      font-size: 0.85rem;
+      color: var(--btn-brown-dark);
+    }
+
+    .status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .status-badge {
+      background: var(--pumpkin-card);
+      color: var(--btn-brown-dark);
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      border: 1px solid var(--btn-brown);
+    }
+
+    .status-badge.authenticated {
+      background: #E8F5E9;
+      color: #2E7D32;
+      border-color: #2E7D32;
+    }
+
+    /* Menu & Specs Sections */
+    .section-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: clamp(40px, 6vw, 70px) 20px;
+      width: 100%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: clamp(30px, 5vw, 45px);
+    }
+
+    .section-header h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      margin-bottom: 10px;
+      color: var(--pumpkin-light);
+    }
+
+    .section-header p {
+      color: var(--cream-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .menu-item-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1.5px dashed rgba(244, 161, 93, 0.45);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .item-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--pumpkin-light);
+    }
+
+    .item-price {
+      color: var(--cream-soft);
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .menu-desc {
+      font-size: 0.88rem;
+      color: var(--cream-muted);
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .btn-menu-order {
+      background: transparent;
+      color: var(--pumpkin-card);
+      border: 1.5px solid var(--pumpkin-card);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .btn-menu-order:hover {
+      background: rgba(244, 161, 93, 0.15);
+    }
+
+    /* Deliverables Box & Placeholders */
+    .deliverables-box {
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      padding: clamp(24px, 4vw, 40px);
+      border: 2px dashed var(--pumpkin-card);
+    }
+
+    .deliverables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .spec-card {
+      background: var(--bg-dark);
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px dashed rgba(244, 161, 93, 0.35);
+      border-left: 5px solid var(--pumpkin-card);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-image-placeholder {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(244, 161, 93, 0.3);
+      background: #2D0B00;
+      filter: sepia(20%) brightness(0.9);
+    }
+
+    .spec-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: var(--pumpkin-light);
+    }
+
+    .spec-dim {
+      font-size: 0.85rem;
+      color: var(--cream-soft);
+      font-weight: 600;
+    }
+
+    .spec-desc {
+      font-size: 0.8rem;
+      color: var(--cream-muted);
+      margin-top: 6px;
+    }
+
+    /* Locked Content Overrides */
+    .locked-content-box {
+      background: var(--bg-surface);
+      border: 2px dashed rgba(244, 161, 93, 0.35);
+      border-radius: var(--radius);
+      padding: 50px 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .locked-content-box h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--pumpkin-light);
+      margin-bottom: 10px;
+      font-size: 1.6rem;
+    }
+
+    .locked-content-box p {
+      color: var(--cream-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    /* Footer */
+    footer {
+      background: #2D0B00;
+      color: var(--cream-muted);
+      padding: 50px 20px calc(30px + var(--safe-bottom));
+      margin-top: auto;
+      border-top: 2px dashed rgba(244, 161, 93, 0.35);
+    }
+
+    .footer-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 36px;
+      margin-bottom: 36px;
+    }
+
+    .footer-content h4 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      color: var(--pumpkin-light);
+    }
+
+    .footer-content p {
+      font-size: 0.9rem;
+      color: var(--cream-muted);
+      margin-bottom: 8px;
+    }
+
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 20px;
+      border-top: 1px solid rgba(244, 161, 93, 0.2);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.85rem;
+      color: var(--pumpkin-card);
+    }
+
+    @media (max-width: 960px) {
+      .hero-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .hero-image-box {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        background: var(--bg-dark);
+        border-left: 2px solid var(--pumpkin-card);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: calc(80px + var(--safe-top)) 24px 40px;
+        transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+        z-index: 1001;
+      }
+
+      .nav-links.nav-open {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 1.05rem;
+        width: 100%;
+      }
+
+      .nav-auth-group {
+        flex-direction: column;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      .btn-nav-login, 
+      .btn-nav-register {
+        width: 100%;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stitched-card {
+        padding: 24px 18px;
+      }
+      .hero-btn-group button, 
+      .hero-btn-group a {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Success Popup Toast Notification -->
+  <div class="toast-popup" id="toastNotification">
+    <span style="font-size:1.4rem;">☕</span>
+    <span id="toastMessage">Success!</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <nav class="nav-container">
+      <a href="#" class="brand">
+        <div class="brand-logo-badge"><img src="logo.png" alt="Logo" style="width:25px; height:auto;"></div>        
+        <span class="brand-name">BREW HAVEN</span>
+      </a>
+
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" class="nav-item">About</a></li>
+        <li><a href="#menu" class="nav-item">Menu</a></li>
+        <li><a href="#deliverables" class="nav-item">Activity Specs</a></li>
+        <li class="nav-auth-group">
+          <button class="btn-nav-login" id="navLoginBtn">Log In</button>
+          <button class="btn-nav-register" id="navRegisterBtn">Register</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Marquee Ribbon -->
+  <div class="marquee-container" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-item">🎃 RAINY SEASON LAUNCH <span>•</span></div>
+      <div class="marquee-item">TRY OUR NEW PUMPKIN SPICE LATTE TODAY! <span>•</span></div>
+      <div class="marquee-item">15% STUDENT DISCOUNT ACTIVE <span>•</span></div>
+      <div class="marquee-item">BREW HAVEN CAFÉ <span>•</span></div>
+      <div class="marquee-item">FRESH ARTISAN ROAST DAILY <span>•</span></div>
+
+      <div class="marquee-item">🎃 RAINY SEASON LAUNCH <span>•</span></div>
+      <div class="marquee-item">TRY OUR NEW PUMPKIN SPICE LATTE TODAY! <span>•</span></div>
+      <div class="marquee-item">15% STUDENT DISCOUNT ACTIVE <span>•</span></div>
+      <div class="marquee-item">BREW HAVEN CAFÉ <span>•</span></div>
+      <div class="marquee-item">FRESH ARTISAN ROAST DAILY <span>•</span></div>
+    </div>
+  </div>
+
+  <!-- Hero Section with Split Layout (Text + Coffee Image) -->
+  <main class="hero-wrapper">
+    <!-- LEFT: Text Card -->
+    <div class="stitched-card">
+      <p class="cozy-body-text">
+        Fall in a cup has officially arrived at Brew Haven! Whether you're rushing through assignments, catching up with friends, or just need that warm comfort break, our limited-edition Pumpkin Spice Latte is your go-to companion.      </p>
+
+      <div class="hero-btn-group">
+        <button class="btn-pill-latte" id="heroOrderBtn">Get your latte now!</button>
+        <button class="btn-pill-ghost" id="heroRegisterBtn">Register for 15% Off</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Aesthetic Coffee Image inside frame -->
+    <div class="hero-image-box">
+      <!-- REPLACE THE SRC BELOW WITH YOUR CANVA COFFEE IMAGE URL -->
+      <img src="coffee.png" alt="Cozy Autumn Pumpkin Spice Latte" loading="lazy" />
+      <div class="hero-image-overlay"></div>
+    </div>
+  </main>
+
+  <!-- Seasonal Menu Section -->
+  <section class="section-container" id="menu">
+    <div class="section-header">
+      <h2>Seasonal Autumn Menu</h2>
+      <p>Limited-edition beverages and treats crafted specifically for this season.</p>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-item-card">
+        <div class="menu-header">
+          <span class="item-title">Pumpkin Spice Latte</span>
+          <span class="item-price">₱175</span>
+        </div>
+        <p class="menu-desc">Fresh espresso, steamed whole milk, authentic spiced pumpkin puree, whipped cream, and cinnamon dusting.</p>
+        <button class="btn-menu-order trigger-order-flow" data-drink="Pumpkin Spice Latte (Hot)">Pre-Order Item</button>
+      </div>
+
+      <div class="menu-item-card">
+        <div class="menu-header">
+          <span class="item-title">Pumpkin Cold Foam Brew</span>
+          <span class="item-price">₱185</span>
+        </div>
+        <p class="menu-desc">16-hour slow cold brew crowned with thick pumpkin cream cold foam and brown sugar syrup.</p>
+        <button class="btn-menu-order trigger-order-flow" data-drink="Pumpkin Cold Foam Brew">Pre-Order Item</button>
+      </div>
+
+      <div class="menu-item-card">
+        <div class="menu-header">
+          <span class="item-title">Cinnamon Spiced Chai</span>
+          <span class="item-price">₱160</span>
+        </div>
+        <p class="menu-desc">Black tea infused with cardamom, clove, and cinnamon, sweetened with honey and warm oat milk.</p>
+        <button class="btn-menu-order trigger-order-flow" data-drink="Cinnamon Spiced Chai">Pre-Order Item</button>
+      </div>
+
+      <div class="menu-item-card">
+        <div class="menu-header">
+          <span class="item-title">Pumpkin Spice Brioche</span>
+          <span class="item-price">₱120</span>
+        </div>
+        <p class="menu-desc">Golden oven-baked French brioche pastry filled with spiced cream cheese and roasted pepitas.</p>
+        <button class="btn-menu-order trigger-order-flow" data-drink="Pumpkin Spice Brioche">Pre-Order Item</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Activity Deliverables (Locked by Default) -->
+  <section class="section-container" id="deliverables">
+    <div class="section-header" style="margin-bottom: 20px;">
+      <h2>Activity 4: Required Deliverables</h2>
+      <p>Dimensions matching the digital marketing graphics rubric:</p>
+    </div>
+
+    <!-- Locked State -->
+    <div class="locked-content-box" id="deliverablesLocked">
+      <div style="font-size: 3rem; margin-bottom: 14px;">🔒</div>
+      <h3>Content Locked</h3>
+      <p>Please log in or register to view the activity specifications.</p>
+      <button class="btn-pill-latte" style="min-height: 48px; padding: 0 32px; font-size: 1.15rem;" onclick="openDrawer('login')">Unlock Specs</button>
+    </div>
+
+    <!-- Unlocked State (Hidden by Default) -->
+    <div class="deliverables-box" id="deliverablesUnlocked" style="display: none;">
+      <div class="deliverables-grid">
+        
+        <!-- Activity 1 Placeholder -->
+        <div class="spec-card">
+          <!-- REPLACE SRC BELOW WITH CANVA LINK FOR SOCIAL MEDIA POST -->
+          <img src="Social Media Post.png" alt="Social Media Post Design" class="spec-image-placeholder" style="aspect-ratio: 1/1;" />
+          <div class="spec-title">1. Social Media Post</div>
+          <div class="spec-dim">1080 × 1080 px</div>
+          <p class="spec-desc">Instagram / Facebook square feed post format.</p>
+        </div>
+
+        <!-- Activity 2 Placeholder -->
+        <div class="spec-card">
+          <!-- REPLACE SRC BELOW WITH CANVA LINK FOR BANNER -->
+          <img src="Landing Page Banner.png" alt="Landing Page Design" class="spec-image-placeholder" style="aspect-ratio: 16/9;" />
+          <div class="spec-title">2. Landing Page Banner</div>
+          <div class="spec-dim">1600 × 900 px</div>
+          <p class="spec-desc">Hero header showcase format.</p>
+        </div>
+
+        <!-- Activity 3 Placeholder -->
+        <div class="spec-card">
+          <!-- REPLACE SRC BELOW WITH CANVA LINK FOR NEWSLETTER -->
+          <img src="Newsletter Header.png" alt="Newsletter Design" class="spec-image-placeholder" style="aspect-ratio: 3/1;" />
+          <div class="spec-title">3. Newsletter Header</div>
+          <div class="spec-dim">600 × 200 px</div>
+          <p class="spec-desc">Email campaign bulletin header (Page 4 in Canva).</p>
+        </div>
+
+        <!-- Activity 4 Placeholder -->
+        <div class="spec-card">
+          <!-- REPLACE SRC BELOW WITH CANVA LINK FOR DISPLAY AD -->
+          <img src="Banner Ad.png" alt="Banner Ad Design" class="spec-image-placeholder" style="aspect-ratio: 1.2/1;" />
+          <div class="spec-title">4. Banner Ad</div>
+          <div class="spec-dim">336 × 280 px</div>
+          <p class="spec-desc">Large rectangle web display advertising banner.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="about">
+    <div class="footer-content">
+      <div>
+        <h4>BREW HAVEN</h4>
+        <p>A cozy café launching a new pumpkin spice latte for the rainy season.</p>
+        <p style="margin-top: 10px; color: var(--pumpkin-light); font-weight: 600;">“Try our new Pumpkin Spice Latte today!”</p>
+      </div>
+      <div>
+        <h4>VISIT US</h4>
+        <p>University Town Center</p>
+        <p>Open Daily: 7:00 AM – 11:00 PM</p>
+        <p>Dine-in • Pickup • Study Area</p>
+      </div>
+      <div>
+        <h4>TARGET AUDIENCE</h4>
+        <p>Students & Young Professionals</p>
+        <p>Design Theme: Warm tones (Orange, Brown, Cream)</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Brew Haven Café. All rights reserved.</span>
+      <span>Midterm Digital Marketing Graphics Project</span>
+    </div>
+  </footer>
+
+  <!-- ==================== DRAWER BACKDROP & FLYOUT PANEL ==================== -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+  <aside class="slide-dock-drawer" id="slideDockDrawer" aria-label="Member Authentication Portal">
+    <div class="drawer-header">
+      <h3 style="font-family:'Playfair Display', Georgia, serif; font-size:1.4rem; color:var(--btn-brown-dark);">Member Portal</h3>
+      <button class="btn-close-drawer" id="closeDrawerBtn" aria-label="Close panel">&times;</button>
+    </div>
+
+    <!-- UNAUTHENTICATED STATE: LOGIN & REGISTRATION -->
+    <div id="unauthSection">
+      <div class="side-tab-nav">
+        <button class="side-tab-btn active" id="tabRegisterBtn" type="button">Register</button>
+        <button class="side-tab-btn" id="tabLoginBtn" type="button">Log In</button>
+      </div>
+
+      <!-- TAB 1: REGISTER -->
+      <div class="tab-view active" id="viewRegister">
+        <div style="margin-bottom: 14px;">
+          <h4 style="font-family:'Playfair Display', Georgia, serif; font-size:1.25rem;">Join Rainy Club</h4>
+          <p style="font-size:0.84rem; color:var(--btn-brown-dark); font-weight:600;">Create an account to unlock pre-orders & specs.</p>
+        </div>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="regName">Full Name</label>
+            <input type="text" id="regName" placeholder="e.g. Juan Cruz" required />
+          </div>
+
+          <div class="form-group">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" placeholder="e.g. student@domain.edu" required />
+          </div>
+
+          <div class="form-group">
+            <label for="regPass">Create Password</label>
+            <input type="password" id="regPass" placeholder="••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-side-action">Register Account</button>
+        </form>
+
+        <p class="switch-link-text">
+          Already have an account? <a id="linkToLogin">Log in here</a>
+        </p>
+      </div>
+
+      <!-- TAB 2: LOG IN -->
+      <div class="tab-view" id="viewLogin">
+        <div style="margin-bottom: 14px;">
+          <h4 style="font-family:'Playfair Display', Georgia, serif; font-size:1.25rem;">Welcome Back</h4>
+          <p style="font-size:0.84rem; color:var(--btn-brown-dark); font-weight:600;">Log in to unlock the pre-order menu.</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginUser">Email or Student ID</label>
+            <input type="text" id="loginUser" placeholder="e.g. student@domain.edu" required />
+          </div>
+
+          <div class="form-group">
+            <label for="loginPass">Password</label>
+            <input type="password" id="loginPass" placeholder="••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-side-action">Log In</button>
+        </form>
+
+        <p class="switch-link-text">
+          Don't have an account? <a id="linkToRegister">Register now</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- AUTHENTICATED STATE: MY CART & PRE-ORDER -->
+    <div id="authSection" style="display: none;">
+      <div style="margin-bottom: 14px;">
+        <h4 style="font-family:'Playfair Display', Georgia, serif; font-size:1.25rem;">My Cart & Pre-Order</h4>
+        <p style="font-size:0.84rem; color:var(--btn-brown-dark); font-weight:600;">Skip the queue. Ready at the counter in 15 mins.</p>
+      </div>
+
+      <form id="preorderForm">
+        <div class="form-group">
+          <label for="poDrink">Select Drink</label>
+          <select id="poDrink">
+            <option value="Pumpkin Spice Latte (Hot)">Pumpkin Spice Latte (Hot) - ₱175</option>
+            <option value="Pumpkin Spice Latte (Iced)">Pumpkin Spice Latte (Iced) - ₱185</option>
+            <option value="Pumpkin Cold Foam Brew">Pumpkin Cold Foam Brew - ₱185</option>
+            <option value="Cinnamon Spiced Chai">Cinnamon Spiced Chai - ₱160</option>
+            <option value="Pumpkin Spice Brioche">Pumpkin Spice Brioche - ₱120</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="poQty">Qty</label>
+            <select id="poQty">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="poTime">Pickup In</label>
+            <select id="poTime">
+              <option value="15 mins">15 mins</option>
+              <option value="30 mins">30 mins</option>
+              <option value="45 mins">45 mins</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-side-action">Confirm Pre-Order Slip</button>
+      </form>
+      
+      <button id="logoutBtn" style="margin-top: 24px; width: 100%; min-height: 48px; border-radius: 30px; background: transparent; color: var(--btn-brown-dark); border: 2px dashed var(--btn-brown); font-weight: 700; cursor: pointer;">Log Out</button>
+    </div>
+
+    <!-- Status Box -->
+    <div class="side-status-box" id="sideStatusBox">
+      <div class="status-header">
+        <strong id="sessionType">Status: Unauthenticated</strong>
+        <span class="status-badge" id="sessionBadge">Browsing</span>
+      </div>
+      <div id="sessionDetail" style="font-weight:500;">
+        Log in or register above to unlock the pre-order system.
+      </div>
+    </div>
+  </aside>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // System State
+    let isAuthenticated = false;
+    let currentUserName = "";
+
+    // Elements
+    const slideDockDrawer = document.getElementById('slideDockDrawer');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+    
+    const unauthSection = document.getElementById('unauthSection');
+    const authSection = document.getElementById('authSection');
+
+    // Toast Notification System
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastMessage').innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    // UI Updates
+    function updateAuthState() {
+      if (isAuthenticated) {
+        unauthSection.style.display = 'none';
+        authSection.style.display = 'block';
+        
+        // Drawer Updates - Only display Welcomee and hide personal details
+        document.getElementById('sessionType').innerText = 'Status: Authenticated';
+        document.getElementById('sessionBadge').innerText = 'Member';
+        document.getElementById('sessionBadge').classList.add('authenticated');
+        document.getElementById('sessionDetail').innerHTML = `<strong>Welcomee, ${currentUserName}!</strong><br>15% Member Discount Applied.`;
+        
+        // Unlock Deliverables
+        document.getElementById('deliverablesLocked').style.display = 'none';
+        document.getElementById('deliverablesUnlocked').style.display = 'block';
+      } else {
+        unauthSection.style.display = 'block';
+        authSection.style.display = 'none';
+        
+        // Drawer Updates
+        document.getElementById('sessionType').innerText = 'Status: Unauthenticated';
+        document.getElementById('sessionBadge').innerText = 'Browsing';
+        document.getElementById('sessionBadge').classList.remove('authenticated');
+        document.getElementById('sessionDetail').innerText = 'Log in or register above to unlock the pre-order system.';
+        
+        // Lock Deliverables
+        document.getElementById('deliverablesLocked').style.display = 'block';
+        document.getElementById('deliverablesUnlocked').style.display = 'none';
+      }
+    }
+
+    // Drawer Controls
+    function openDrawer(targetTab = 'login') {
+      if (!isAuthenticated) {
+        setActiveTab(targetTab);
+      }
+      slideDockDrawer.classList.add('open');
+      drawerBackdrop.classList.add('active');
+    }
+
+    function closeDrawer() {
+      slideDockDrawer.classList.remove('open');
+      drawerBackdrop.classList.remove('active');
+    }
+
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    // Tab Switching inside Unauth Section
+    const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+    const tabLoginBtn = document.getElementById('tabLoginBtn');
+    const viewRegister = document.getElementById('viewRegister');
+    const viewLogin = document.getElementById('viewLogin');
+    
+    function setActiveTab(tab) {
+      if (tab === 'register') {
+        tabRegisterBtn.classList.add('active');
+        tabLoginBtn.classList.remove('active');
+        viewRegister.classList.add('active');
+        viewLogin.classList.remove('active');
+      } else {
+        tabLoginBtn.classList.add('active');
+        tabRegisterBtn.classList.remove('active');
+        viewLogin.classList.add('active');
+        viewRegister.classList.remove('active');
+      }
+    }
+
+    tabRegisterBtn.addEventListener('click', () => setActiveTab('register'));
+    tabLoginBtn.addEventListener('click', () => setActiveTab('login'));
+    document.getElementById('linkToLogin').addEventListener('click', () => setActiveTab('login'));
+    document.getElementById('linkToRegister').addEventListener('click', () => setActiveTab('register'));
+
+    // Main Page Triggers
+    document.getElementById('navLoginBtn').addEventListener('click', () => openDrawer('login'));
+    document.getElementById('navRegisterBtn').addEventListener('click', () => openDrawer('register'));
+    document.getElementById('heroRegisterBtn').addEventListener('click', () => openDrawer('register'));
+    
+    document.getElementById('heroOrderBtn').addEventListener('click', () => {
+      if (!isAuthenticated) {
+        openDrawer('login');
+        showToast('Please log in to start your order.');
+      } else {
+        openDrawer('preorder');
+      }
+    });
+
+    // Menu Pre-Order Triggers (Forces Login if unauthenticated)
+    document.querySelectorAll('.trigger-order-flow').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (!isAuthenticated) {
+           openDrawer('login');
+           showToast('Please log in or register to order!');
+        } else {
+           const drinkName = e.target.getAttribute('data-drink');
+           const selectDropdown = document.getElementById('poDrink');
+           for(let i=0; i < selectDropdown.options.length; i++) {
+             if(selectDropdown.options[i].value === drinkName) {
+               selectDropdown.selectedIndex = i;
+               break;
+             }
+           }
+           openDrawer('preorder');
+           showToast(`${drinkName} added to your cart!`);
+        }
+      });
+    });
+
+    // Form Submissions
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      currentUserName = document.getElementById('regName').value.trim().split(' ')[0]; // Gets First Name
+      isAuthenticated = true;
+      updateAuthState();
+      showToast('Registered & logged in successfully!');
+      document.getElementById('registerForm').reset();
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      currentUserName = document.getElementById('loginUser').value.trim().split('@')[0];
+      isAuthenticated = true;
+      updateAuthState();
+      showToast('Logged in successfully!');
+      document.getElementById('loginForm').reset();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      isAuthenticated = false;
+      currentUserName = "";
+      updateAuthState();
+      setActiveTab('login');
+      showToast('Logged out securely.');
+      closeDrawer();
+    });
+
+    document.getElementById('preorderForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const drinkSelect = document.getElementById('poDrink');
+      const drinkName = drinkSelect.options[drinkSelect.selectedIndex].text.split(' - ')[0];
+      const qty = document.getElementById('poQty').value;
+      
+      showToast(`Success! Your order for ${qty}x ${drinkName} was sent.`);
+      closeDrawer();
+      document.getElementById('preorderForm').reset();
+    });
+
+    // Mobile Menu Toggle
+    const navLinks = document.getElementById('navLinks');
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      navLinks.classList.toggle('nav-open');
+    });
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        navLinks.classList.remove('nav-open');
+      });
+    });
+  </script>
+</body>
+</html>
