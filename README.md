@@ -1,11 +1,11 @@
 # Brew Haven Café ☕🌧️
 
-Welcome to the official repo for **Brew Haven Café**, a rainy-season themed café website featuring our limited-edition autumn menu, student perks, and quick online ordering system.
+This is a school project developed for academic coursework. **Brew Haven Café** is a rainy-season-themed web project featuring a seasonal autumn menu, student discounts, and an online ordering concept.
 
 ## Live Website
 * **URL:** https://knmontano.github.io/BREW_HAVEN/
 
-## Features
+## Project Features
 * Seasonal Autumn Menu (Pumpkin Spice Latte, Cold Foam Brew, Chai, and Brioche)
 * Student Discount & Quick Pre-Order System
-* Responsive Design & Canva Graphic Assets Integration
+* Responsive Web Design & Canva Graphic Assets Integration
